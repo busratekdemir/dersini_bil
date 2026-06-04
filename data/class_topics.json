@@ -54,5 +54,14 @@
     "Fizik": ["Çembersel Hareket", "Basit Harmonik Hareket", "Atom Fiziği"],
     "Kimya": ["Kimya ve Elektrik", "Karbon Kimyasına Giriş", "Organik Bileşikler"],
     "Biyoloji": ["Genden Proteine", "Canlılarda Enerji Dönüşümleri", "Bitki Biyolojisi"]
+  },
+  "Mezun / sınava hazırlık": {
+    "TYT Matematik": ["Temel Kavramlar", "Sayı Basamakları", "Bölme ve Bölünebilme", "EBOB-EKOK", "Rasyonel Sayılar", "Basit Eşitsizlikler", "Mutlak Değer", "Üslü Sayılar", "Köklü Sayılar", "Problemler", "Kümeler", "Fonksiyonlar", "Permütasyon", "Kombinasyon", "Olasılık", "Geometri"],
+    "TYT Türkçe": ["Sözcükte Anlam", "Cümlede Anlam", "Paragraf", "Anlatım Bozuklukları", "Dil Bilgisi", "Yazım Kuralları", "Noktalama İşaretleri"],
+    "TYT Fen": ["Fizik Bilimine Giriş", "Madde ve Özellikleri", "Hareket ve Kuvvet", "Kimya Bilimi", "Atom ve Periyodik Sistem", "Canlıların Ortak Özellikleri", "Hücre"],
+    "TYT Sosyal": ["Tarih Bilimine Giriş", "İlk Türk Devletleri", "Coğrafyanın Konusu", "Harita Bilgisi", "Felsefeye Giriş", "Din Kültürü Temel Kavramları"],
+    "AYT Matematik": ["Polinomlar", "İkinci Dereceden Denklemler", "Parabol", "Trigonometri", "Logaritma", "Diziler", "Limit", "Süreklilik", "Türev", "İntegral"],
+    "AYT Edebiyat": ["Şiir Bilgisi", "Edebî Akımlar", "Tanzimat Edebiyatı", "Servetifünun Edebiyatı", "Milli Edebiyat", "Cumhuriyet Dönemi Edebiyatı"],
+    "AYT Fen": ["Vektörler", "Denge", "Elektrik ve Manyetizma", "Modern Atom Teorisi", "Organik Kimya", "İnsan Fizyolojisi", "Bitki Biyolojisi"]
   }
 }
