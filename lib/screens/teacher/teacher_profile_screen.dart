@@ -1,59 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../services/app_state.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/constants.dart';
-import 'teacher_subject_selection_screen.dart';
+import '../../services/auth_service.dart';
+import '../../services/firestore_service.dart';
 
 class TeacherProfileScreen extends StatelessWidget {
   const TeacherProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AppState>();
+    final user = AuthService().currentUser;
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
         Text('Profil', style: Theme.of(context).textTheme.headlineSmall),
         const SizedBox(height: 12),
-        Card(
-          child: ListTile(
-            leading: const CircleAvatar(child: Icon(Icons.person)),
-            title: const Text('Ayşe Yılmaz'),
-            subtitle: Text('Eşleşme kodu: ${AppConstants.teacherCode}'),
-            trailing: IconButton(
-              icon: const Icon(Icons.copy),
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Kod kopyalanabilir: OGR123')));
-              },
+        if (user == null)
+          const Card(
+            child: ListTile(
+              leading: Icon(Icons.info_outline),
+              title: Text('Profil bilgisi için giriş yapmalısınız.'),
             ),
+          )
+        else
+          FutureBuilder<Map<String, dynamic>?>(
+            future: FirestoreService().getUserProfile(user.uid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final profile = snapshot.data;
+              final fullName = (profile?['fullName'] as String?) ?? user.displayName ?? 'Öğretmen';
+              final email = (profile?['email'] as String?) ?? user.email ?? '-';
+              final teacherCode = (profile?['teacherCode'] as String?) ?? '-';
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    child: ListTile(
+                      leading: const CircleAvatar(child: Icon(Icons.person)),
+                      title: Text(fullName),
+                      subtitle: Text('$email\nRol: Öğretmen'),
+                      isThreeLine: true,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Eşleşme Kodum', style: Theme.of(context).textTheme.titleLarge),
+                          const SizedBox(height: 8),
+                          SelectableText(
+                            teacherCode,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(height: 8),
+                          const Text('Öğrenciler bu kodu girerek size eşleşme isteği gönderebilir.'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: state.teacherSubjects
-              .map(
-                (subject) => Chip(
-                  label: Text(subject),
-                  avatar: Icon(Icons.local_offer, color: AppColors.subject(subject), size: 18),
-                ),
-              )
-              .toList(),
-        ),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            icon: const Icon(Icons.tune),
-            label: const Text('Ders alanlarını düzenle'),
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const TeacherSubjectSelectionScreen()),
-            ),
-          ),
-        ),
       ],
     );
   }

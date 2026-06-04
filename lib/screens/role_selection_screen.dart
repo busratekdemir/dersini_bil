@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../services/app_state.dart';
+import '../services/auth_service.dart';
+import '../services/firestore_service.dart';
 import '../widgets/custom_button.dart';
 import 'student/student_class_selection_screen.dart';
 import 'teacher/teacher_mode_selection_screen.dart';
@@ -9,6 +11,17 @@ import 'teacher/teacher_mode_selection_screen.dart';
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
   static const routeName = '/role-selection';
+
+  Future<void> _syncRole(String role) async {
+    final user = AuthService().currentUser;
+    if (user == null) return;
+    await FirestoreService().createUserProfile(
+      uid: user.uid,
+      fullName: user.displayName ?? user.email ?? 'Dersini Bil Kullanıcısı',
+      email: user.email ?? '',
+      role: role,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +48,7 @@ class RoleSelectionScreen extends StatelessWidget {
                     label: 'Öğrenci olarak devam et',
                     onPressed: () async {
                       await context.read<AppState>().setRole('student');
+                      await _syncRole('student');
                       if (context.mounted) {
                         Navigator.pushReplacementNamed(context, StudentClassSelectionScreen.routeName);
                       }
@@ -60,6 +74,7 @@ class RoleSelectionScreen extends StatelessWidget {
                     label: 'Öğretmen olarak devam et',
                     onPressed: () async {
                       await context.read<AppState>().setRole('teacher');
+                      await _syncRole('teacher');
                       if (context.mounted) {
                         Navigator.pushReplacementNamed(context, TeacherModeSelectionScreen.routeName);
                       }

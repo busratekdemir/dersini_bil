@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/app_state.dart';
+import '../../services/auth_service.dart';
+import '../../services/firestore_service.dart';
 import '../../widgets/app_bottom_nav.dart';
-import '../role_selection_screen.dart';
+import '../login_screen.dart';
 import 'teacher_assign_homework_screen.dart';
 import 'teacher_profile_screen.dart';
 import 'teacher_schedule_screen.dart';
@@ -20,32 +22,22 @@ class TeacherDashboardScreen extends StatefulWidget {
 class _TeacherDashboardScreenState extends State<TeacherDashboardScreen> {
   int _index = 0;
 
-  Future<void> _confirmRoleChange() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Rol değiştirilsin mi?'),
-        content: const Text('Mevcut panelden çıkıp rol seçimi ekranına döneceksiniz.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('İptal'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Rol Değiştir'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !mounted) return;
-    await context.read<AppState>().clearRole();
-    if (!mounted) return;
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      RoleSelectionScreen.routeName,
-      (route) => false,
-    );
+  Future<void> _logout() async {
+    try {
+      await AuthService().logout();
+      if (!mounted) return;
+      await context.read<AppState>().clearSession();
+      if (!mounted) return;
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        LoginScreen.routeName,
+        (route) => false,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Oturum kapatılamadı. Lütfen tekrar deneyin.')),
+      );
+    }
   }
 
   @override
@@ -62,9 +54,9 @@ class _TeacherDashboardScreenState extends State<TeacherDashboardScreen> {
         title: const Text('Öğretmen Paneli'),
         actions: [
           TextButton.icon(
-            onPressed: _confirmRoleChange,
-            icon: const Icon(Icons.swap_horiz),
-            label: const Text('Rol Değiştir'),
+            onPressed: _logout,
+            icon: const Icon(Icons.logout),
+            label: const Text('Oturumu Kapat'),
           ),
         ],
       ),
@@ -90,6 +82,8 @@ class _TeacherHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
+    final user = AuthService().currentUser;
+    final firestore = FirestoreService();
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
@@ -104,9 +98,21 @@ class _TeacherHome extends StatelessWidget {
           childAspectRatio: 1.35,
           children: [
             _TeacherMetric(title: 'Bugünkü ders', value: '${state.schedules.length}', icon: Icons.today),
-            const _TeacherMetric(title: 'Aktif öğrenci', value: '3', icon: Icons.groups),
-            _TeacherMetric(title: 'Verilen ödev', value: '${state.assignedHomeworks.length}', icon: Icons.assignment),
-            const _TeacherMetric(title: 'Hatırlatıcı', value: 'Açılabilir', icon: Icons.notifications),
+            _TeacherMetricStream(
+              title: 'Aktif öğrenci',
+              stream: user == null ? null : firestore.getTeacherStudentCount(user.uid),
+              icon: Icons.groups,
+            ),
+            _TeacherMetricStream(
+              title: 'Bekleyen istek',
+              stream: user == null ? null : firestore.getTeacherPendingRequestCount(user.uid),
+              icon: Icons.person_add_alt,
+            ),
+            _TeacherMetricStream(
+              title: 'Verilen ödev',
+              stream: user == null ? null : firestore.getTeacherAssignedHomeworkCount(user.uid),
+              icon: Icons.assignment,
+            ),
           ],
         ),
         const SizedBox(height: 14),
@@ -120,6 +126,30 @@ class _TeacherHome extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+
+class _TeacherMetricStream extends StatelessWidget {
+  const _TeacherMetricStream({required this.title, required this.stream, required this.icon});
+
+  final String title;
+  final Stream<int>? stream;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final countStream = stream;
+    if (countStream == null) {
+      return _TeacherMetric(title: title, value: '0', icon: icon);
+    }
+    return StreamBuilder<int>(
+      stream: countStream,
+      builder: (context, snapshot) {
+        final value = snapshot.data ?? 0;
+        return _TeacherMetric(title: title, value: '$value', icon: icon);
+      },
     );
   }
 }

@@ -20,6 +20,11 @@ class LocalStorageService {
 
   Future<void> saveRole(String value) => _prefs.setString('role', value);
   Future<void> clearRole() => _prefs.remove('role');
+  Future<void> clearSession() async {
+    await _prefs.remove('role');
+    await _prefs.remove('classLevel');
+    await _prefs.remove('teacherMode');
+  }
   Future<void> saveClassLevel(String value) => _prefs.setString('classLevel', value);
   Future<void> saveTeacherMode(String value) => _prefs.setString('teacherMode', value);
 

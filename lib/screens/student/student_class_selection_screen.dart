@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/app_state.dart';
+import '../../services/auth_service.dart';
+import '../../services/firestore_service.dart';
 import '../../utils/constants.dart';
 import '../../widgets/custom_button.dart';
 import 'student_dashboard_screen.dart';
@@ -44,6 +46,10 @@ class _StudentClassSelectionScreenState extends State<StudentClassSelectionScree
             icon: Icons.arrow_forward,
             onPressed: () async {
               await context.read<AppState>().setClassLevel(selected);
+              final user = AuthService().currentUser;
+              if (user != null) {
+                await FirestoreService().updateStudentClass(user.uid, selected);
+              }
               if (context.mounted) {
                 Navigator.pushReplacementNamed(context, StudentDashboardScreen.routeName);
               }

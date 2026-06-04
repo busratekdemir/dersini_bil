@@ -5,6 +5,8 @@ import 'package:timezone/timezone.dart' as tz;
 class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
 
+  Future<void> initialize() => init();
+
   Future<void> init() async {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Europe/Istanbul'));
@@ -27,6 +29,38 @@ class NotificationService {
     await _plugin
         .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(alert: true, badge: true, sound: true);
+  }
+
+
+
+  Future<void> showInstantNotification({
+    required String title,
+    required String body,
+  }) async {
+    await _plugin.show(
+      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      title,
+      body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'dersini_bil_reminders',
+          'Dersini Bil Hatırlatıcılar',
+          channelDescription: 'Ödev ve ders saati bildirimleri',
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+        macOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+      ),
+    );
   }
 
   Future<void> scheduleReminder({

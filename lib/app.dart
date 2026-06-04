@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'screens/login_screen.dart';
+import 'screens/register_screen.dart';
 import 'screens/role_selection_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/student/student_class_selection_screen.dart';
@@ -22,6 +23,7 @@ class DersiniBilApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (_) => const SplashScreen(),
         LoginScreen.routeName: (_) => const LoginScreen(),
+        RegisterScreen.routeName: (_) => const RegisterScreen(),
         RoleSelectionScreen.routeName: (_) => const RoleSelectionScreen(),
         StudentClassSelectionScreen.routeName: (_) => const StudentClassSelectionScreen(),
         StudentDashboardScreen.routeName: (_) => const StudentDashboardScreen(),

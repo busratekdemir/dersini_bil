@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/app_state.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/app_bottom_nav.dart';
-import '../role_selection_screen.dart';
+import '../login_screen.dart';
 import 'student_homework_screen.dart';
 import 'student_notes_screen.dart';
 import 'student_progress_screen.dart';
@@ -21,32 +22,22 @@ class StudentDashboardScreen extends StatefulWidget {
 class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
   int _index = 0;
 
-  Future<void> _confirmRoleChange() async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Rol değiştirilsin mi?'),
-        content: const Text('Mevcut panelden çıkıp rol seçimi ekranına döneceksiniz.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('İptal'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Rol Değiştir'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !mounted) return;
-    await context.read<AppState>().clearRole();
-    if (!mounted) return;
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      RoleSelectionScreen.routeName,
-      (route) => false,
-    );
+  Future<void> _logout() async {
+    try {
+      await AuthService().logout();
+      if (!mounted) return;
+      await context.read<AppState>().clearSession();
+      if (!mounted) return;
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        LoginScreen.routeName,
+        (route) => false,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Oturum kapatılamadı. Lütfen tekrar deneyin.')),
+      );
+    }
   }
 
   @override
@@ -63,9 +54,9 @@ class _StudentDashboardScreenState extends State<StudentDashboardScreen> {
         title: const Text('Dersini Bil'),
         actions: [
           TextButton.icon(
-            onPressed: _confirmRoleChange,
-            icon: const Icon(Icons.swap_horiz),
-            label: const Text('Rol Değiştir'),
+            onPressed: _logout,
+            icon: const Icon(Icons.logout),
+            label: const Text('Oturumu Kapat'),
           ),
           IconButton(
             tooltip: 'Öğretmenim',

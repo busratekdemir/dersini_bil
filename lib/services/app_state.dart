@@ -51,6 +51,14 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> clearSession() async {
+    role = null;
+    classLevel = null;
+    teacherMode = null;
+    await storage.clearSession();
+    notifyListeners();
+  }
+
   Future<void> setClassLevel(String value) async {
     classLevel = value;
     await storage.saveClassLevel(value);
