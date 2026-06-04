@@ -1,0 +1,58 @@
+{
+  "5": {
+    "Matematik": ["Doğal Sayılar", "Kesirler", "Ondalık Gösterim", "Temel Geometrik Kavramlar"],
+    "Türkçe": ["Sözcükte Anlam", "Cümlede Anlam", "Paragraf", "Yazım Kuralları"],
+    "Fen Bilimleri": ["Güneş, Dünya ve Ay", "Canlılar Dünyası", "Kuvvetin Ölçülmesi"],
+    "Sosyal Bilgiler": ["Birey ve Toplum", "Kültür ve Miras", "İnsanlar, Yerler ve Çevreler"],
+    "İngilizce": ["Hello", "My Town", "Games and Hobbies"]
+  },
+  "6": {
+    "Matematik": ["Doğal Sayılarla İşlemler", "Çarpanlar ve Katlar", "Kümeler", "Kesirlerle İşlemler"],
+    "Türkçe": ["Sözcükte Anlam", "Cümlede Anlam", "Paragraf", "Metin Türleri"],
+    "Fen Bilimleri": ["Güneş Sistemi", "Vücudumuzdaki Sistemler", "Kuvvet ve Hareket"],
+    "Sosyal Bilgiler": ["Biz ve Değerlerimiz", "Tarihe Yolculuk", "Yeryüzünde Yaşam"],
+    "İngilizce": ["Life", "Yummy Breakfast", "Downtown"]
+  },
+  "7": {
+    "Matematik": ["Tam Sayılar", "Rasyonel Sayılar", "Cebirsel İfadeler", "Oran ve Orantı"],
+    "Türkçe": ["Fiiller", "Zarflar", "Paragraf", "Anlatım Biçimleri"],
+    "Fen Bilimleri": ["Güneş Sistemi ve Ötesi", "Hücre ve Bölünmeler", "Kuvvet ve Enerji"],
+    "Sosyal Bilgiler": ["İletişim ve İnsan İlişkileri", "Türk Tarihinde Yolculuk", "Ekonomi ve Sosyal Hayat"],
+    "İngilizce": ["Appearance and Personality", "Sports", "Biographies"]
+  },
+  "8": {
+    "Matematik": ["Çarpanlar ve Katlar", "Üslü İfadeler", "Kareköklü İfadeler", "Veri Analizi", "Olasılık", "Cebirsel İfadeler", "Doğrusal Denklemler", "Üçgenler"],
+    "Türkçe": ["Fiilimsi", "Sözcükte Anlam", "Cümlede Anlam", "Paragraf", "Yazım Kuralları", "Noktalama İşaretleri"],
+    "Fen Bilimleri": ["Mevsimler ve İklim", "DNA ve Genetik Kod", "Basınç", "Madde ve Endüstri", "Basit Makineler", "Enerji Dönüşümleri"],
+    "Sosyal Bilgiler": ["Bir Kahraman Doğuyor", "Milli Uyanış", "Atatürkçülük", "Çağdaş Türkiye"],
+    "İngilizce": ["Friendship", "Teen Life", "In the Kitchen", "On the Phone"]
+  },
+  "9": {
+    "Matematik": ["Kümeler", "Denklemler ve Eşitsizlikler", "Üçgenler", "Veri"],
+    "Türk Dili ve Edebiyatı": ["İletişim", "Hikâye", "Şiir", "Masal ve Fabl"],
+    "Fizik": ["Fizik Bilimine Giriş", "Madde ve Özellikleri", "Hareket ve Kuvvet"],
+    "Kimya": ["Kimya Bilimi", "Atom ve Periyodik Sistem", "Kimyasal Türler Arası Etkileşimler"],
+    "Biyoloji": ["Yaşam Bilimi Biyoloji", "Hücre", "Canlılar Dünyası"]
+  },
+  "10": {
+    "Matematik": ["Sayılar", "Fonksiyonlar", "Polinomlar", "İkinci Dereceden Denklemler"],
+    "Türk Dili ve Edebiyatı": ["Giriş", "Hikâye", "Şiir", "Destan"],
+    "Fizik": ["Elektrik ve Manyetizma", "Basınç ve Kaldırma Kuvveti", "Dalgalar"],
+    "Kimya": ["Kimyanın Temel Kanunları", "Karışımlar", "Asitler ve Bazlar"],
+    "Biyoloji": ["Hücre Bölünmeleri", "Kalıtım", "Ekosistem Ekolojisi"]
+  },
+  "11": {
+    "Matematik": ["Trigonometri", "Analitik Geometri", "Fonksiyonlarda Uygulamalar", "Denklem ve Eşitsizlikler"],
+    "Türk Dili ve Edebiyatı": ["Hikâye", "Şiir", "Roman", "Tiyatro"],
+    "Fizik": ["Kuvvet ve Hareket", "Elektrik ve Manyetizma"],
+    "Kimya": ["Modern Atom Teorisi", "Gazlar", "Sıvı Çözeltiler"],
+    "Biyoloji": ["İnsan Fizyolojisi", "Komünite ve Popülasyon Ekolojisi"]
+  },
+  "12": {
+    "Matematik": ["Limit", "Süreklilik", "Türev", "İntegral"],
+    "Türk Dili ve Edebiyatı": ["Cumhuriyet Dönemi Türk Edebiyatı", "Roman", "Tiyatro", "Deneme"],
+    "Fizik": ["Çembersel Hareket", "Basit Harmonik Hareket", "Atom Fiziği"],
+    "Kimya": ["Kimya ve Elektrik", "Karbon Kimyasına Giriş", "Organik Bileşikler"],
+    "Biyoloji": ["Genden Proteine", "Canlılarda Enerji Dönüşümleri", "Bitki Biyolojisi"]
+  }
+}
